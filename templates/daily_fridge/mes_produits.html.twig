@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+<br/>
+<h3>Rechercher produit</h3>
+
+    <div class="form-group">
+    {{ form_start(searchForm) }}
+    {{ form_row(searchForm.Nom, {'label': " ", 'attr': {'placeholder': 'Nom produit'}}) }}
+    <button class="btn btn-primary">Rechercher</button>
+    {{ form_end(searchForm) }}
+    </div>
+
+<br/> 
+
+<h2> Bienvenue sur la page mes produits ! </h2><br/>
+
+
+    <table class="table table-hover">
+    <thead>
+        <tr>
+        <th scope="col">Nom produits</th>
+        <th scope="col">Marque</th>
+        <th scope="col">Quantité</th>
+        <th scope="col">Date d'achat</th>
+        <th scope="col">Date de péremption</th>
+        <th scope="col">Etat</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for Histoproduit in Histoproduits %}
+        <tr class="table-light">
+    
+        <td>{{ Histoproduit.produit.Nom }}</td>
+        <td>{{ Histoproduit.produit.marque }}</td>
+        <td>{{ Histoproduit.Quantite }}</td>        
+        <td>{{ Histoproduit.DateAchat | date('d/m/Y') }}</td>
+        <td>{{ Histoproduit.datelimite | date('d/m/Y') }}</td>
+        <td>                  
+            {% if Histoproduit.etatH == "Périmé" %}
+                <button type="button" class="btn btn-danger">Périmé</button>
+            {% elseif (Histoproduit.etatH == "Frigo") and (Histoproduit.DateLimite|date("m/d/Y") < "now"|date("m/d/Y")) %}
+            <button type="button" class="btn btn-info">Au frigo</button>
+             <a href="#" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="false">!!!</i></a>
+            {% elseif (Histoproduit.etatH == "Frigo") %}
+                <button type="button" class="btn btn-info">Au frigo</button>
+                
+            {% elseif Histoproduit.etatH == "Consommé" %}
+                <button type="button" class="btn btn-success">Consommé</button>
+            {% else %}
+                <button type="button" class="btn btn-warning disabled">Pas dans le Frigo</button>
+            {% endif %}
+        </td>
+    {% endfor %}
+        </tr>
+    </tbody>
+   
+    </table> 
+
+    {{ knp_pagination_render(Histoproduits) }}
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<br/>
+<h3>Rechercher produit</h3>
+
+    <div class="form-group">
+
+    {{ form_start(searchForm) }}
+    {{ form_row(searchForm.Nom, {'label': " ", 'attr': {'placeholder': 'Nom produit'}}) }}
+    <button class="btn btn-primary">rechercher</button>
+    {{ form_end(searchForm) }}
+
+    </div>
+<br/>
+
+<h2> Bienvenue sur la page mes produits périmés ! </h2><br/>
+
+
+    <table class="table table-hover">
+    <thead>
+        <tr>
+        <th scope="col">Nom produits</th>
+        <th scope="col">Quantité</th>
+        <th scope="col">Date de péremption</th>
+        <th scope="col">Etat</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for produitsPerime in produitsPerimes %}
+    
+        <tr class="table-light">
+    
+            <td>{{ produitsPerime.produit.nom }}</td>
+            <td>{{ produitsPerime.Quantite }}</td>
+            <td>{{ produitsPerime.DateLimite | date('d/m/Y') }}</td>
+            <td>
+                <button type="button" class="btn btn-danger">Périmé</button>
+            </td>
+         </tr>
+    {% endfor %}
+       
+    </tbody>
+    </table> 
+
+    {{ knp_pagination_render(produitsPerimes) }}
+
+{% endblock %}

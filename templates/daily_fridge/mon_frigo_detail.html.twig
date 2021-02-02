@@ -1,0 +1,374 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{# <br/>
+<h3>Rechercher produit</h3>
+
+    <div class="form-group">
+    {% form_theme searchForm 'bootstrap_4_layout.html.twig' %}
+    {{ form_start(searchForm) }}
+    {{ form_row(searchForm.Nom, {'label': " ", 'attr': {'placeholder': 'Nom produit'}}) }}
+    <button class="btn btn-primary">rechercher</button>
+    {{ form_end(searchForm) }}
+
+<br/> #}
+
+<h2> Bienvenue sur la page mon frigo ! </h2><br/>
+
+
+    <table class="table table-hover">
+    <thead>
+        <tr>
+        <th scope="col">Désignation</th>
+        <th scope="col">Marque</th>
+        <th scope="col">Quantité</th>
+        <th scope="col">Date d'achat</th>
+        <th scope="col">Date de péremption</th>
+        <th scope="col">Etat</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for Histoproduit in Histoproduits %}
+        <tr class="table-light">
+    
+        <td>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox" value="" checked="">
+                        <a href="{{path('daily_fridge_Mon_Frigo_detail',{id: Histoproduit.produit.id })}}" > {{ Histoproduit.produit.nom }} </a>
+                </label>
+            </div>
+
+             
+
+        </td>
+        <td>{{ Histoproduit.produit.marque }} </td>
+        <td>{{ Histoproduit.quantite }}</td>
+        <td>{{ Histoproduit.DateAchat | date('d/m/Y') }}</td>
+        <td>{{ Histoproduit.datelimite | date('d/m/Y') }}</td>
+        <td>
+             {% if  (Histoproduit.DateLimite|date("m/d/Y") < "now"|date("m/d/Y"))  %}
+                <a href="{{path('daily_fridge_Mon_Frigo_update_perimer',{id: Histoproduit.produit.id })}}" class="btn btn-danger delete-produit" >Attention A Ejecter</a>
+                           
+            {% else %}
+                
+                <a href="{{path('daily_fridge_Mon_Frigo_update_consommer',{id: Histoproduit.produit.id })}}"  class="btn btn-success consommer-produit"  >Consommer</a>
+            {% endif %}
+        </td>
+    {% endfor %}
+        </tr>
+    </tbody>
+    </table> 
+
+    
+
+    {# {% if  produit.id != 0  %}
+             
+        {{ produit.marque }}
+
+    {% endif %} #}
+
+    {# <button type="submit" class="btn btn-primary">Recette</button> #}
+
+    <div class="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    {% for produit in produit %}
+
+        
+        {# <div class="card border-primary mb-3" style="max-width: 20rem;">
+        <div class="card-header">{{ produit.Nom }}</div>
+        <div class="card-body">
+        
+        
+            <h4>Nutricore :  
+            {% if produit.nutriscoreGrade == 'e'  %}    
+            <font color="red">{{ produit.nutriscoreGrade |capitalize }}</font>
+            {% elseif produit.nutriscoreGrade == 'd'  %} 
+            <font color="orange">{{ produit.nutriscoreGrade |capitalize }}</font>
+            {% elseif produit.nutriscoreGrade == 'c'  %} 
+            <font color="yellow">{{ produit.nutriscoreGrade |capitalize }}</font>
+            {% elseif produit.nutriscoreGrade == 'b' %} 
+            <font color="green">{{ produit.nutriscoreGrade |capitalize }}</font>
+            {% elseif produit.nutriscoreGrade == 'a'  %} 
+            <font color="green">{{ produit.nutriscoreGrade |capitalize }}</font>
+            {% else %} 
+            {{ 'Pas noté !'}}
+            {% endif %} 
+
+            </h4>  
+        <br/>
+
+        <h4> Les + </h4>
+        
+        {% if  (produit.TauxProteine != 0) and (produit.TauxProteine != 'undefined' ) %}
+            
+            <ul>
+                <li>Taux de proteine : {{ produit.TauxProteine }} g</li>
+            </ul>
+
+        {% endif %}
+        
+        {% if  (produit.TauxFibre != 0)  and (produit.TauxFibre != 'undefined' ) %}
+
+            <ul>
+                <li>Taux de fibre : {{ produit.TauxFibre }} g</li>
+            </ul>
+        
+        {% endif %}
+
+        {% if  (produit.TauxEnergie != 0)  and (produit.TauxEnergie != 'undefined' ) %}  
+
+            <ul>
+                <li>Taux Energie : {{ produit.TauxEnergie }} g</li>
+
+            </ul>
+
+        {% endif %}
+        
+        {% if  (produit.tauxcalcium != 0)  and (produit.tauxcalcium != 'undefined' ) %}  
+
+            <ul>
+                <li>Taux Calcium : {{ produit.tauxcalcium }} g</li>
+
+            </ul>
+
+        {% endif %}
+        {% if  (produit.tauxsodium != 0)  and (produit.tauxsodium != 'undefined' ) %}  
+
+            <ul>
+                <li>Taux Sodium : {{ produit.tauxsodium }} g</li>
+
+            </ul>
+
+        {% endif %}
+
+        <h4> Les - </h4>
+        
+        {% if  (produit.TauxSel  != 0 ) and (produit.TauxSel != 'undefined' ) %}
+            
+            <ul>
+
+                <li> Taux de sel :  {{ produit.TauxSel }} g</li>
+
+            </ul>
+
+        {% endif %} 
+
+        {% if  (produit.TauxSucre != 0 ) and (produit.TauxSucre != 'undefined' ) %}
+
+            <ul>
+                
+                <li> Taux de sucre :  {{ produit.TauxSucre }} g</li>
+            
+            </ul>
+
+        {% endif %} 
+
+        {% if  (produit.TauxGras != 0 ) and (produit.TauxGras != 'undefined' ) %} 
+
+            <ul>
+                
+                <li>Taux de gras : {{ produit.TauxGras }} g</li>
+            
+            </ul>
+        {% endif %} 
+
+        {% if  (produit.TauxAdditif != 0 ) and (produit.TauxAdditif != 'undefined' )  %}
+
+            <ul>
+                
+                <li>Taux d'additif : {{ produit.TauxAdditif }} g</li>
+
+            </ul>
+        {% endif %} 
+           
+        </div>
+        </div>
+
+         <img  class ="image-display" alt="Logo" src="{{ asset('build/Nutriscore.png') }}" width="(300)" height="200" >
+        <p>
+            Le Nutri-Score, grâce à une lettre et à une couleur, informe les consommateurs sur la qualité nutritionnelle d’un produit. 
+            Chaque produit est ainsi positionné sur une échelle à 5 niveaux allant :
+        </p>
+
+        <ul>
+            <li>du produit  le plus favorable sur le plan nutritionnel (classé A) </li>
+        </ul>
+
+        <ul>
+            <li>au produit le moins favorable sur le plan nutritionnel (classé E) </li>
+        </ul>
+
+        <p> Ref : www.mangerbouger.fr</p> #}
+
+        <div class="container">
+            <div class="float-left">
+                
+
+                    <h4>Nutricore :  
+                {% if produit.nutriscoreGrade == 'e'  %}    
+                <font color="red">{{ produit.nutriscoreGrade |capitalize }}</font>
+                {% elseif produit.nutriscoreGrade == 'd'  %} 
+                <font color="orange">{{ produit.nutriscoreGrade |capitalize }}</font>
+                {% elseif produit.nutriscoreGrade == 'c'  %} 
+                <font color="yellow">{{ produit.nutriscoreGrade |capitalize }}</font>
+                {% elseif produit.nutriscoreGrade == 'b' %} 
+                <font color="green">{{ produit.nutriscoreGrade |capitalize }}</font>
+                {% elseif produit.nutriscoreGrade == 'a'  %} 
+                <font color="green">{{ produit.nutriscoreGrade |capitalize }}</font>
+                {% else %} 
+                {{ 'Pas noté !'}}
+                {% endif %} 
+
+                </h4>  
+                <br/>
+
+                <h4> Les + </h4>
+                
+                {% if  (produit.TauxProteine != 0) and (produit.TauxProteine != 'undefined' ) %}
+                    
+                    <ul>
+                        <li>Taux de proteine : {{ produit.TauxProteine }} g</li>
+                    </ul>
+
+                {% endif %}
+                
+                {% if  (produit.TauxFibre != 0)  and (produit.TauxFibre != 'undefined' ) %}
+
+                    <ul>
+                        <li>Taux de fibre : {{ produit.TauxFibre }} g</li>
+                    </ul>
+                
+                {% endif %}
+
+                {% if  (produit.TauxEnergie != 0)  and (produit.TauxEnergie != 'undefined' ) %}  
+
+                    <ul>
+                        <li>Taux Energie : {{ produit.TauxEnergie }} g</li>
+
+                    </ul>
+
+                {% endif %}
+                
+                {% if  (produit.tauxcalcium != 0)  and (produit.tauxcalcium != 'undefined' ) %}  
+
+                    <ul>
+                        <li>Taux Calcium : {{ produit.tauxcalcium }} g</li>
+
+                    </ul>
+
+                {% endif %}
+                {% if  (produit.tauxsodium != 0)  and (produit.tauxsodium != 'undefined' ) %}  
+
+                    <ul>
+                        <li>Taux Sodium : {{ produit.tauxsodium }} g</li>
+
+                    </ul>
+
+                {% endif %}
+
+                <h4> Les - </h4>
+                
+                {% if  (produit.TauxSel  != 0 ) and (produit.TauxSel != 'undefined' ) %}
+                    
+                    <ul>
+
+                        <li> Taux de sel :  {{ produit.TauxSel }} g</li>
+
+                    </ul>
+
+                {% endif %} 
+
+                {% if  (produit.TauxSucre != 0 ) and (produit.TauxSucre != 'undefined' ) %}
+
+                    <ul>
+                        
+                        <li> Taux de sucre :  {{ produit.TauxSucre }} g</li>
+                    
+                    </ul>
+
+                {% endif %} 
+
+                {% if  (produit.TauxGras != 0 ) and (produit.TauxGras != 'undefined' ) %} 
+
+                    <ul>
+                        
+                        <li>Taux de gras : {{ produit.TauxGras }} g</li>
+                    
+                    </ul>
+                {% endif %} 
+
+                {% if  (produit.TauxAdditif != 0 ) and (produit.TauxAdditif != 'undefined' )  %}
+
+                    <ul>
+                        
+                        <li>Taux d'additif : {{ produit.TauxAdditif }} g</li>
+
+                    </ul>
+                {% endif %} 
+
+
+
+
+
+
+            </div>
+            <div class="float-right">
+                
+                <img  class ="image-display" alt="Logo" src="{{ asset('build/Nutriscore_2.png') }}" width="(300)" height="200" >
+                {# <p>
+                    Le Nutri-Score, grâce à une lettre et à une couleur, informe les consommateurs sur la qualité nutritionnelle d’un produit. 
+                    Chaque produit est ainsi positionné sur une échelle à 5 niveaux allant :
+                </p>
+
+                <ul>
+                    <li>du produit  le plus favorable sur le plan nutritionnel (classé A) </li>
+                </ul>
+
+                <ul>
+                    <li>au produit le moins favorable sur le plan nutritionnel (classé E) </li>
+                </ul>
+     #} 
+                   
+                <p>
+                    Le Nutri-Score, grâce à une lettre et à une couleur, </br>
+                    informe les consommateurs sur la qualité nutritionnelle d’un produit. </br>
+                    Chaque produit est ainsi positionné sur une échelle à 5 niveaux allant :
+                </p>
+
+                <ul>
+                    <li>du produit le plus favorable sur le plan nutritionnel (classé A) </li>
+                </ul>
+
+                <ul>
+                    <li>au produit le moins favorable sur le plan nutritionnel (classé E) </li>
+                </ul>
+
+                <p> Ref : www.mangerbouger.fr</p> 
+            </div>
+            
+
+        </div>
+        </br></br></br></br></br></br></br></br></br></br></br></br></br>
+        
+    {% endfor %}
+{% endblock %}

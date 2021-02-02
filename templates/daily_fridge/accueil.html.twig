@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+{% block stephane %}{% endblock %} 
+{% block body %}
+
+    <br/>
+
+     {% for Histoproduit in Histoproduits %}
+
+       {% set nombreJour= Histoproduit.DateLimite|date("d") -  "now"|date("d") %}
+        
+        {% if Histoproduit.DateLimite|date("m/d/Y") < "now"|date("m/d/Y") %}
+
+            <div class="alert alert-dismissible alert-danger">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Produit périmé :  <a href="#" class="alert-link"></a> {{ Histoproduit.produit.nom }} </strong>
+                dans le frigo depuis le {{ Histoproduit.DateAchat|date("m/d/Y") }}
+                date limite :  {{ Histoproduit.DateLimite|date("m/d/Y") }}
+            </div>
+
+         {% elseif  (nombreJour >= 0) and (nombreJour <= 3) %}
+
+            <div class="alert alert-dismissible alert-warning">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Produit proche de la date de péremption :  <a href="#" class="alert-link"></a> {{ Histoproduit.produit.nom }} </strong>
+                dans le frigo depuis le {{ Histoproduit.DateAchat|date("m/d/Y") }}
+                date limite :  {{ Histoproduit.DateLimite|date("m/d/Y") }}
+            </div>
+         
+        {% endif %}
+
+
+
+    {% endfor %}
+
+
+    
+
+<h1>MyDailyFridge : les bons choix pour votre frigo !</h1>
+
+<p>
+    MyDailyFridge décrypte les code barres de vos produits
+    alimentaires, analyse leur impact sur la santé mais surtout vous evites 
+    les gachis alimentaire grâce à son système de notifications pour les dates limites de consommation !
+</p>
+<img  class ="image-display" alt="Logo" src="{{ asset('build/image_accueil.png') }}" width="(500)" height="300" >
+
+
+<br/><br/><br/>
+  <h2>Comment ça marche ?</h2>
+
+<p>Pour utiliser gratuitement et en illimité l’application web “MyDailyFridge”, il suffit de créer un compte et vous aurez accès à ce dernier 24h/7j. </p>
+
+Sur l’application MyDailyFridge vous avez accès aux pages:
+<ol>
+  <li><strong>Scanner :</strong> Cette page est dédiée pour scanner les codes barres des produits alimentaires afin d’obtenir les informations nutritionnelles.</li>
+  <li><strong>Mes produits :</strong> Sur cette page vous trouverez l’ensemble des produits que vous avez scanner précédemment (historique).</li>
+  <li><strong>Mon Frigo :</strong> Via cette page vous aurez la visibilité sur les produits alimentaires (scanner) présent dans votre frigo.</li>
+  <li><strong>Mes produits périmés :</strong> Cette page liste les produits périmés que vous aviez scannés auparavant.</li>
+</ol>
+
+
+L'équipe MyDailyFridge vous souhaite une bonne visite !
+
+ 
+
+
+
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        const url = new URL('http://localhost:3000/.well-known/mercure');
+        url.searchParams.append('topic', 'http://monsite.com/ping');
+        
+
+        const eventSource = new EventSource(url);
+        eventSource.onmessage = event => {
+            console.log(JSON.parse(event.data));
+        }
+    </script>
+
+
+
+
+{% endblock %}
+
+
+

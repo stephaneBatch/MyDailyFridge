@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{# <br/>
+<h3>Rechercher produit</h3>
+
+    <div class="form-group">
+    {% form_theme searchForm 'bootstrap_4_layout.html.twig' %}
+    {{ form_start(searchForm) }}
+    {{ form_row(searchForm.Nom, {'label': " ", 'attr': {'placeholder': 'Nom produit'}}) }}
+    <button class="btn btn-primary">rechercher</button>
+    {{ form_end(searchForm) }}
+
+<br/> #}
+
+<h2> Bienvenue sur la page mon frigo ! </h2><br/>
+
+
+    <table class="table table-hover">
+    <thead>
+        <tr>
+        <th scope="col">Désignation</th>
+        <th scope="col">Marque</th>
+        <th scope="col">Quantité</th>
+        <th scope="col">Date d'achat</th>
+        <th scope="col">Date de péremption</th>
+        <th scope="col">Etat</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for Histoproduit in Histoproduits %}
+        <tr class="table-light">
+    
+        <td>
+        
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox" value="" checked="">
+                         <a href="{{path('daily_fridge_Mon_Frigo_detail',{id: Histoproduit.produit.id })}}" > {{ Histoproduit.produit.nom }} </a>
+                </label>
+            </div>
+
+        </td>
+        <td>{{ Histoproduit.produit.marque }}</td>
+        <td>{{ Histoproduit.quantite }}</td>
+        <td>{{ Histoproduit.DateAchat | date('d/m/Y') }}</td>
+        <td>{{ Histoproduit.datelimite | date('d/m/Y') }}</td>
+        <td>
+             {% if  (Histoproduit.DateLimite|date("m/d/Y") < "now"|date("m/d/Y"))  %}
+                <a href="{{path('daily_fridge_Mon_Frigo_update_perimer',{id: Histoproduit.produit.id })}}" class="btn btn-danger delete-produit" >Attention A Ejecter</a>
+                           
+            {% else %}
+                
+                <a href="{{path('daily_fridge_Mon_Frigo_update_consommer',{id: Histoproduit.produit.id })}}"  class="btn btn-success consommer-produit"  >Consommer</a>
+            {% endif %}
+        </td>
+    {% endfor %}
+        </tr>
+    </tbody>
+    </table> 
+
+    {{ knp_pagination_render(Histoproduits) }}
+
+    {# <button type="submit" class="btn btn-primary">Recette</button> #}
+
+
+{% endblock %}

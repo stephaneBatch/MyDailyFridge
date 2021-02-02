@@ -1,0 +1,128 @@
+<?php //App.Entity.User
+
+return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+    $o = [
+        (($f = &\Symfony\Component\VarExporter\Internal\Registry::$factories)['Symfony\\Component\\Validator\\Mapping\\ClassMetadata'] ?? \Symfony\Component\VarExporter\Internal\Registry::f('Symfony\\Component\\Validator\\Mapping\\ClassMetadata'))(),
+        ($f['Symfony\\Component\\Validator\\Mapping\\PropertyMetadata'] ?? \Symfony\Component\VarExporter\Internal\Registry::f('Symfony\\Component\\Validator\\Mapping\\PropertyMetadata'))(),
+        clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Symfony\\Component\\Validator\\Constraints\\Length'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Validator\\Constraints\\Length')),
+        clone ($p['Symfony\\Component\\Validator\\Constraints\\EqualTo'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Validator\\Constraints\\EqualTo')),
+        $f['Symfony\\Component\\Validator\\Mapping\\PropertyMetadata'](),
+        clone ($p['Symfony\\Component\\Validator\\Constraints\\Email'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Validator\\Constraints\\Email')),
+        clone ($p['Symfony\\Bridge\\Doctrine\\Validator\\Constraints\\UniqueEntity'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Bridge\\Doctrine\\Validator\\Constraints\\UniqueEntity')),
+    ],
+    null,
+    [
+        'stdClass' => [
+            'name' => [
+                'App\\Entity\\User',
+                'password',
+                4 => 'Email',
+            ],
+            'defaultGroup' => [
+                'User',
+            ],
+            'members' => [
+                [
+                    'password' => [
+                        $o[1],
+                    ],
+                    'Email' => [
+                        $o[4],
+                    ],
+                ],
+            ],
+            'properties' => [
+                [
+                    'password' => $o[1],
+                    'Email' => $o[4],
+                ],
+            ],
+            'constraints' => [
+                [
+                    $o[6],
+                ],
+                [
+                    $o[2],
+                    $o[3],
+                ],
+                4 => [
+                    $o[5],
+                ],
+            ],
+            'constraintsByGroup' => [
+                [
+                    'Default' => [
+                        $o[6],
+                    ],
+                    'User' => [
+                        $o[6],
+                    ],
+                ],
+                [
+                    'Default' => [
+                        $o[2],
+                        $o[3],
+                    ],
+                    'User' => [
+                        $o[2],
+                        $o[3],
+                    ],
+                ],
+                4 => [
+                    'Default' => [
+                        $o[5],
+                    ],
+                    'User' => [
+                        $o[5],
+                    ],
+                ],
+            ],
+            'class' => [
+                1 => 'App\\Entity\\User',
+                4 => 'App\\Entity\\User',
+            ],
+            'property' => [
+                1 => 'password',
+                4 => 'Email',
+            ],
+            'minMessage' => [
+                2 => 'Votre mot de passe doit faire au moins huit caractères',
+            ],
+            'min' => [
+                2 => '8',
+            ],
+            'groups' => [
+                2 => [
+                    'Default',
+                    'User',
+                ],
+                [
+                    'Default',
+                    'User',
+                ],
+                5 => [
+                    'Default',
+                    'User',
+                ],
+                [
+                    'Default',
+                    'User',
+                ],
+            ],
+            'message' => [
+                3 => 'Vos mots de passe ne correspondent pas !',
+                6 => 'Cet email existe déjà dans la base de données !',
+            ],
+            'propertyPath' => [
+                3 => 'Confirm_mdp',
+            ],
+            'fields' => [
+                6 => [
+                    'Email',
+                ],
+            ],
+        ],
+    ],
+    $o[0],
+    []
+); }];
